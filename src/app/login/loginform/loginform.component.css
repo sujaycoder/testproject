@@ -1,0 +1,48 @@
+#loginform{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+}
+.login{
+    width: 500px;
+    height: auto;
+    background: #FFFFFF;
+    box-shadow: -4px 4px 20px rgba(0, 0, 0, 0.15), 4px 4px 20px rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+    margin: 20px 0 20px 0;
+
+}
+.login>.tab>ul{
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    width: 100%;
+}
+.login>.tab>ul>li{
+    margin: 20px 0 0 0;
+    height: 40px;
+    width: 50%;
+    line-height: 42px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+}
+.login>.tab>ul>li:nth-child(2){
+    margin-right: 40px;
+}
+.signin, .signup{
+    color:  #433C3C;
+
+}
+
+.loginformactive{
+    background:#518EF8;
+    color: #FFFFFF;
+    outline: none;
+}
