@@ -1,0 +1,13 @@
+<p-table #dt [value]="validations" selectionMode="single" [(selection)]="selectedRow">
+  <tbody>
+    <ng-template pTemplate="body" let-record>
+      <tr>
+        <td>{{record}}</td>
+      </tr>
+    </ng-template>
+  </tbody>
+</p-table>
+&nbsp;
+<div class="col-sm-12 reset-button">
+  <a (click)="onClose()" class="btn btn-warning">Close</a>
+</div>

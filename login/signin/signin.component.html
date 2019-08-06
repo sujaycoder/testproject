@@ -1,0 +1,43 @@
+
+<form [formGroup]='signin'  class="signin">
+  <mat-form-field  appearance="standard" class='emailfield'>
+      
+      <mat-label class="email"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/><path d="M0 0h24v24H0z" fill="none"/></svg>  Email</mat-label>
+      <input class='emailinput' required matInput formControlName="Email">
+  </mat-form-field>
+  <mat-form-field appearance="standard" class='emailfield'>
+      <mat-label class="email"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>  Password</mat-label>
+      <input class='passwordinput' required matInput [type]="hide ? 'password' : 'text'" formControlName="passwd">
+      <button class='passwordbtn' type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+  </mat-form-field>
+  <div class="signinbottom">
+      <mat-checkbox color='primary'>Remember me</mat-checkbox>
+      <a href="#">Forgot Password?</a>
+  </div>
+      <button class="singbtn" type="submit" mat-raised-button>Sign in</button>
+</form>
+<div class="linkedin">
+    <div class="divide">
+        <div class="line"></div>
+        <p>OR</p>
+        <div class="line"></div>
+    </div>
+    <button class="linkedinbtn">
+        <svg width="39" height="40" viewBox="0 0 39 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0)">
+            <path d="M38.8171 0H0.280487V40H38.8171V0Z" fill="#0084B1"/>
+            <path d="M9.34997 6.07507C11.115 6.07657 12.5707 7.58974 12.5669 9.43091C12.5627 11.3588 11.0213 12.8119 9.32823 12.77C7.61099 12.8061 6.10185 11.3173 6.10219 9.41818C6.10219 7.57631 7.56355 6.07367 9.34997 6.07507Z" fill="white"/>
+            <path d="M11.2252 33.921H7.44357C6.95279 33.921 6.55493 33.508 6.55493 32.9986V16.2534C6.55493 15.744 6.95279 15.3311 7.44357 15.3311H11.2252C11.716 15.3311 12.1138 15.744 12.1138 16.2534V32.9987C12.1137 33.508 11.716 33.921 11.2252 33.921Z" fill="white"/>
+            <path d="M32.9954 21.2127C32.9954 17.7022 30.2537 14.8563 26.8715 14.8563H25.9016C24.0513 14.8563 22.4166 15.8146 21.4333 17.2793C21.3261 17.439 21.2268 17.6048 21.1357 17.7759C21.1041 17.771 21.0854 17.7685 21.085 17.7694V15.7139C21.085 15.5025 20.9199 15.331 20.7161 15.331H15.9981C15.7944 15.331 15.6291 15.5024 15.6291 15.7139V33.5382C15.6291 33.7497 15.7942 33.9211 15.9979 33.9212L20.8187 33.9224C21.0225 33.9225 21.1878 33.751 21.1878 33.5394V23.2419C21.1878 21.4619 22.5555 19.9839 24.2703 19.9638C25.1457 19.9535 25.9393 20.3176 26.5112 20.9116C27.0757 21.4972 27.4247 22.3068 27.4247 23.2006V33.5408C27.4247 33.7522 27.5898 33.9236 27.7934 33.9237L32.6262 33.9249C32.83 33.925 32.9952 33.7535 32.9952 33.542V21.2127H32.9954Z" fill="white"/>
+            </g>
+            <defs>
+            <clipPath id="clip0">
+            <rect width="38.5366" height="40" fill="white" transform="translate(0.280487)"/>
+            </clipPath>
+            </defs>
+            </svg>
+            <span>Sign in with Linkedin</span>
+    </button>
+</div>
