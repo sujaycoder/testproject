@@ -13,11 +13,13 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatMomentDateModule} from '@angular/material-moment-adapter';
 import {MatSelectModule} from '@angular/material/select';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EmailverificationComponent } from './emailverification/emailverification.component';
+import {MatCardModule} from '@angular/material/card';
 
 
 
 @NgModule({
-  declarations: [LoginformComponent, SigninComponent, SignupComponent],
+  declarations: [LoginformComponent, SigninComponent, SignupComponent, EmailverificationComponent],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -29,7 +31,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatDatepickerModule,
     MatSelectModule,
     MatMomentDateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule
   ],
   exports: [
     LoginformComponent,

@@ -1,19 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl,  Validators, PatternValidator, AbstractControl} from '@angular/forms'
-import { Signindata } from 'src/app/model/signindata';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormGroup, FormControl,  Validators, AbstractControl} from '@angular/forms'
 import { PasswdService } from 'src/app/services/passwd.service';
+import { Router } from '@angular/router';
+import { Signupdata } from 'src/app/model/signupdata';
+import { RegistrationService } from 'src/app/services/registration.service';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
-  providers: [Signindata, PasswdService]
+  providers: [PasswdService, Signupdata, RegistrationService],
 })
 export class SignupComponent implements OnInit {
-  myDate = new Date();
   hide = true;
   hidec = true;
-  signup = new FormGroup({
+ signup = new FormGroup({
     Name : new FormControl('', [Validators.required, Validators.pattern(/[a-zA-z]/)]),
     Email : new FormControl('',  [Validators.required, Validators.email]),
     Gender : new FormControl('', [Validators.required]),
@@ -22,12 +23,35 @@ export class SignupComponent implements OnInit {
     confirmpasswd : new FormControl('', [Validators.required, Validators.pattern(/^[A-Z][a-z0-9]+[-/?><:_@!#$%^&&*()+}{]+[A-Za-z0-9-/?><:_@!#$%^&&*()+}{]*/)]),
   });
   control = this.signup.controls;
-password = this.passwd.generate()
-  constructor(private data: Signindata, public passwd: PasswdService) { 
+password = this.passwd.generate();
+  constructor(public passwd: PasswdService, private router: Router, private data: Signupdata, private regservice: RegistrationService) { 
+  }
+  passwordmatch(controls: AbstractControl):{[key: string]: any} | null{
+      if(this.control.newpasswd.value==controls.value){
+        return null;
+      }else{
+        return{'matcherror':  true};
+      }
+  }
+  agevalid(control: AbstractControl): {[key:string]:any} | null{
+var year = new Date();
+      var age= 0;
+      if (control.value !=null && control.value!=''){
+        age = control.value['_i']['year'];
+      }else{
+        age = 0;
+      }
+      if (year.getFullYear() - age>16){
+          return null;
+      }else{
+        return {'agenotvalid': true};
+      }
+    
   }
 
+
+
   Namevalid(){
-    console.log('age')
     if(this.control.Name.invalid && !this.control.Name.untouched && this.control.Name.value!=""){
       return true;
     }
@@ -37,7 +61,7 @@ password = this.passwd.generate()
 
   }
   Namerequire(){
-    if(this.control.Name.value==='' && !this.control.Name.untouched){
+    if(this.control.Name.value==='' || this.control.Name.value==null && !this.control.Name.untouched){
       return true;
     }
  else{
@@ -55,7 +79,7 @@ password = this.passwd.generate()
     
   }
   Emailrequire(){
-    if(this.control.Email.value==='' && !this.control.Email.untouched){
+    if(this.control.Email.value==='' || this.control.Email.value==null && !this.control.Email.untouched){
       return true;
     }
  else{
@@ -64,7 +88,7 @@ password = this.passwd.generate()
 
   }
  Gendervalid(){
-  if(this.control.Gender.value==='' && this.control.Gender.touched){
+  if(this.control.Gender.value==='' || this.control.Gender.value==null && this.control.Gender.touched){
     return true;
   }
 else{
@@ -75,9 +99,13 @@ else{
   year = new Date();
   Agevalid(){
     if(this.control.Age.touched && this.control.Age.value!=''){
-      console.log('here');
-      if (this.year.getFullYear() - this.control.Age.value['_i']['year']<16){
-        console.log('herealso', this.year.getFullYear() - this.control.Age.value['_i']['year']);
+      var age= 0;
+      if (this.control.Age.value !=null){
+        age = this.control.Age.value['_i']['year'];
+      }else{
+        age = 0;
+      }
+      if (this.year.getFullYear() - age<16){
           return true;
       }
     }
@@ -86,7 +114,7 @@ else{
     }
   }
   Agerequire(){
-    if(this.control.Age.value==='' && !this.control.Age.untouched){
+    if(this.control.Age.value==='' || this.control.Age.value==null && !this.control.Age.untouched){
       return true;
     }
  else{
@@ -95,8 +123,8 @@ else{
 
   }
   Passwdvalid(){
-    console.log('1st')
     if(this.control.newpasswd.invalid && !this.control.newpasswd.untouched && this.control.newpasswd.value!=""){
+      this.control.confirmpasswd.setValue('');
       return true;
     }
  else{
@@ -104,8 +132,8 @@ else{
     }
   }
   Passwordrequire(){
-    console.log('2nd')
-    if(this.control.newpasswd.value==='' && !this.control.newpasswd.untouched){
+    if(this.control.newpasswd.value==='' || this.control.newpasswd.value==null && !this.control.newpasswd.untouched){
+      this.control.confirmpasswd.setValue('');
       return true;
     }
  else{
@@ -114,9 +142,7 @@ else{
 
   }
   Cfpasswdvalid(){
-    console.log(this.control.confirmpasswd);
-    if(this.control.newpasswd.value != this.control.confirmpasswd.value && this.control.confirmpasswd.touched){
-      console.log('valid');
+    if(this.control.newpasswd.value != this.control.confirmpasswd.value && this.control.confirmpasswd.value!=''){
       return true;
     }
  else{
@@ -125,8 +151,7 @@ else{
     
   }
   Cfpasswdrequire(){
-    console.log('here also');
-    if(this.control.confirmpasswd.value==='' &&  !this.control.confirmpasswd.untouched){
+    if(this.control.confirmpasswd.value==='' || this.control.confirmpasswd.value==null &&  !this.control.confirmpasswd.untouched){
       return true;
     }
  else{
@@ -135,10 +160,28 @@ else{
 
   }
   ngOnInit() {
-    console.log(this.control.Age, this.year.getFullYear());
+    this.signup.controls.confirmpasswd.setValidators(this.passwordmatch.bind(this));
+    this.control.Age.setValidators(this.agevalid.bind(this));
+
   }
 
+onsubmit(){
+  if (this.signup.valid){
+    console.log(this.control);
+    this.data.name = this.control.Name.value;
+    this.data.email = this.control.Email.value;
+    this.data.dob = [this.control.Age.value['_i']['date'], this.control.Age.value['_i']['month'], this.control.Age.value['_i']['year']];
+    this.data.gender = this.control.Gender.value;
+    this.data.newpasswd = this.control.newpasswd.value;
+    this.data.cfpasswd = this.control.confirmpasswd.value;
+    this.regservice.display();
+    this.router.navigate(['emailverify']);
 
+  }else{
+    console.log(this.signup.status);
+
+  }
+}
 
 
 }

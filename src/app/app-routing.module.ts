@@ -5,6 +5,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginformComponent } from './login/loginform/loginform.component';
 import { SigninComponent } from './login/signin/signin.component';
 import { SignupComponent } from './login/signup/signup.component';
+import { EmailverificationComponent } from './login/emailverification/emailverification.component';
 
 const routes: Routes = [{
   path: 'login',
@@ -16,7 +17,7 @@ const routes: Routes = [{
   {
     path: 'signup',
     component: SignupComponent
-  }
+  },
   ]
 },{
   path: '',
@@ -26,8 +27,15 @@ const routes: Routes = [{
       loadChildren: './user/user.module#UserModule'
     },{
       path: 'home',
-      component: DashboardComponent
-    }]
+      component: DashboardComponent,
+      children:[
+      ]
+    },
+    {
+      path: 'emailverify',
+      component: EmailverificationComponent
+    }
+  ]
 },
 ];
 

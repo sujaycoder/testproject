@@ -1,5 +1,5 @@
 
-<form [formGroup]='signup'  class="signup" >
+<form [formGroup]='signup'  class="signup" (ngSubmit)="onsubmit()" >
     <mat-form-field  appearance="standard" class='emailfield'>       
         <mat-label class="email"><svg width="15" height="20" viewBox="0 0 30 40"  xmlns="http://www.w3.org/2000/svg">
             <path d="M15 19.5626C19.3853 19.5626 22.9407 15.1834 22.9407 9.78137C22.9407 4.3792 21.7734 0 15 0C8.22657 0 7.05907 4.3792 7.05907 9.78137C7.05907 15.1834 10.6144 19.5626 15 19.5626Z" />
@@ -31,19 +31,19 @@
             <input matInput [matDatepicker]="picker" placeholder="Date of Birth" required formControlName="Age">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
-            <mat-hint *ngIf="Agevalid()" >Age at least 16</mat-hint>
+            <mat-error *ngIf="Agevalid()" >Age at least 16</mat-error>
             <mat-error *ngIf="Agerequire()">This filed is required</mat-error>
         </mat-form-field>     
     </div>
     <mat-form-field appearance="standard" class='emailfield'>
         <mat-label class="email"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>   Password</mat-label>
-        <input class='passwordinput' required matInput [type]="hide ? 'password' : 'text'" formControlName="newpasswd">
+        <input class='passwordinput' required matInput [type]="hide ? 'password' : 'text'" formControlName="newpasswd" minlength="8">
         <button class='passwordbtn' type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}} </mat-icon>
         </button>
-        <mat-hint *ngIf="this.control.newpasswd.dirty && this.control.newpasswd.value!=''" >Min lenth 8 and combination of Uppercase, numeric and special characters suggested '{{password}}'</mat-hint>
+        <mat-hint *ngIf="this.control.newpasswd.dirty || this.control.newpasswd.invalid && this.control.newpasswd.value!=''"  >Min lenth 8 and combination of Uppercase, numeric and special characters suggested '{{password}}'</mat-hint>
         <mat-error *ngIf="Passwordrequire()">This field is required</mat-error>
-        <mat-error *ngIf="Passwdvalid()">Enter a valid password</mat-error>
+        <mat-error *ngIf="Passwdvalid() || this.control.newpasswd.minlength">Enter a valid password</mat-error>
     </mat-form-field>
     <mat-form-field appearance="standard" class='emailfield'>
         <mat-label class="email"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M0 0h24v24H0z" fill="none"/><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>    Confirm Password</mat-label>
@@ -51,9 +51,8 @@
         <button class='passwordbtn' type="button" mat-icon-button matSuffix (click)="hidec = !hidec" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidec">
           <mat-icon>{{hidec ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
-        <mat-hint  *ngIf="this.control.confirmpasswd.dirty && this.control.confirmpasswd.value!=''">Min lenth 8 and combination of Uppercase, numeric and special characters suggested '{{password}}'</mat-hint>
-        <mat-error *ngIf="Cfpasswdrequire()">This field is required</mat-error>
-        <mat-error *ngIf="Cfpasswdvalid()">Enter a valid password</mat-error>
+        <mat-error *ngIf="Cfpasswdrequire()" passwd='this.control.newpasswd.value'>This field is required</mat-error>
+        <mat-error *ngIf="Cfpasswdvalid()">Password does not match</mat-error>
     </mat-form-field>
         <button class="singbtn" type="submit" mat-raised-button>Sign up</button>
   </form>
